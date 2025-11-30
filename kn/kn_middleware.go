@@ -1,0 +1,37 @@
+package main
+
+import (
+	"fmt"
+	"path/filepath"
+	"strings"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
+)
+
+func middlewareAction(c string) {
+	fmt.Printf("Creating new %s middleware...\n", c)
+
+	middlewareTemplate := `package middlewares
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+func __FUNCNAME__() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// TODO
+	}
+}
+`
+
+	file := strings.TrimSuffix(c, filepath.Ext(c))
+	s1 := strings.Replace(middlewareTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
+
+	if createNewFile("./internal/middlewares/"+c+".go", s1) {
+		fmt.Println("Middleware created successfully!")
+		tidyAction()
+	} else {
+		fmt.Println("Failed to create middleware.")
+	}
+}

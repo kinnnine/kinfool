@@ -1,0 +1,65 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"os"
+)
+
+func checkKinfool() bool {
+	if _, err := os.Stat("./kinfool.go"); err == nil {
+		return true
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("kinfool.go does not exist in the current directory")
+		os.Exit(1)
+	}
+	return false
+}
+
+func updateKinfool(content string) bool {
+	if file, err := os.Create("./kinfool.go"); err == nil {
+		file.WriteString(content)
+		file.Close()
+		return true
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Error writing to file:", err)
+		return false
+	}
+	return false
+}
+
+func fileExists(path string) bool {
+	if _, err := os.Stat(path); err == nil {
+		return true
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	return false
+}
+
+func getDirectoryContents(path string) []string {
+	if entries, err := os.ReadDir(path); err == nil {
+		var fileNames []string // Initialize an empty string slice
+		for _, entry := range entries {
+			fileNames = append(fileNames, entry.Name())
+		}
+		return fileNames
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println(err)
+		return []string{}
+	}
+	return []string{}
+}
+
+func createNewFile(filepath string, content string) bool {
+	if file, err := os.Create(filepath); err == nil {
+		file.WriteString(content)
+		file.Close()
+		return true
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("Error writing to file:", err)
+		return false
+	}
+	return false
+}
