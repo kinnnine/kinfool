@@ -27,8 +27,10 @@ func __FUNCNAME__(c *gin.Context) {
 
 	file := strings.TrimSuffix(c, filepath.Ext(c))
 	s1 := strings.Replace(routeTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
+	method := strings.Split(c, ".")
+	r1 := strings.Replace(c, "."+method[1], "", 1)
 
-	if createNewFile("./internal/routes/"+c+".go", s1) {
+	if createNewFile("./internal/routes/"+c+".go", s1) && createNewFile("./internal/controllers/"+r1+".go", "") && createNewFile("./internal/services/"+r1+".go", "") {
 		fmt.Println("Route created successfully!")
 		tidyAction()
 	} else {

@@ -28,6 +28,16 @@ func updateKinfool(content string) bool {
 	return false
 }
 
+func getMainModuleName() string {
+	if data, err := os.ReadFile("./go.mod"); err == nil {
+		return string(data)
+	} else if errors.Is(err, os.ErrNotExist) {
+		fmt.Println("go.mod does not exist in the current directory")
+		os.Exit(1)
+	}
+	return ""
+}
+
 func fileExists(path string) bool {
 	if _, err := os.Stat(path); err == nil {
 		return true

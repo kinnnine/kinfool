@@ -43,7 +43,7 @@ MANUAL:
 			Name:    "utility",
 			Aliases: []string{"u"},
 			Usage:   "Create a new utility",
-			Action:  func(c *cli.Context) error { utilityAction(); return nil },
+			Action:  func(c *cli.Context) error { utilityAction(c.Args()[0]); return nil },
 		},
 		{
 			Name:    "middleware",
