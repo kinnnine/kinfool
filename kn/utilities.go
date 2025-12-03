@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 )
 
 func checkKinfool() bool {
@@ -80,4 +81,24 @@ func createNewFile(filepath string, content string) bool {
 		return false
 	}
 	return false
+}
+
+func createNewFolder(folderpath string) bool {
+	if err := os.MkdirAll(folderpath, os.ModeAppend); err == nil {
+		return true
+	} else {
+		fmt.Println("Error creating folder:", err)
+		return false
+	}
+}
+
+func runCmd(main string, params ...string) bool {
+	cmd := exec.Command(main, params...)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println("Error executing command:", err)
+		return false
+	}
+	fmt.Println(string(output))
+	return true
 }
