@@ -38,6 +38,14 @@ func getMainModuleName() string {
 	return ""
 }
 
+func checkArg(c string, m string) bool {
+	if len(c) < 1 {
+		fmt.Printf("Missing %s", m)
+		os.Exit(1)
+	}
+	return true
+}
+
 func fileExists(path string) bool {
 	if _, err := os.Stat(path); err == nil {
 		return true

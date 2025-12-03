@@ -37,19 +37,19 @@ MANUAL:
 			Name:    "route",
 			Aliases: []string{"r"},
 			Usage:   "Create a new route alongside with controller and service",
-			Action:  func(c *cli.Context) error { routeAction(c.Args()[0]); return nil },
+			Action:  func(c *cli.Context) error { routeAction(c.Args().Get(0), c.Args().Get(1)); return nil },
 		},
 		{
 			Name:    "utility",
 			Aliases: []string{"u"},
 			Usage:   "Create a new utility",
-			Action:  func(c *cli.Context) error { utilityAction(c.Args()[0]); return nil },
+			Action:  func(c *cli.Context) error { utilityAction(c.Args().Get(0)); return nil },
 		},
 		{
 			Name:    "middleware",
 			Aliases: []string{"m"},
 			Usage:   "Create a new middleware",
-			Action:  func(c *cli.Context) error { middlewareAction(c.Args()[0]); return nil },
+			Action:  func(c *cli.Context) error { middlewareAction(c.Args().Get(0)); return nil },
 		},
 	}
 

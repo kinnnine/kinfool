@@ -2,15 +2,16 @@ package main
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
 
-func middlewareAction(c string) {
-	fmt.Printf("Creating new %s middleware...\n", c)
+func middlewareAction(file string) {
+	checkArg(file, "middleware filename.")
+
+	fmt.Printf("Creating new %s middleware...\n", file)
 
 	middlewareTemplate := `package middlewares
 
@@ -25,10 +26,8 @@ func __FUNCNAME__() gin.HandlerFunc {
 }
 `
 
-	file := strings.TrimSuffix(c, filepath.Ext(c))
-	s1 := strings.Replace(middlewareTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
-
-	if createNewFile("./internal/middlewares/"+c+".go", s1) {
+	content := strings.Replace(middlewareTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
+	if createNewFile("./internal/middlewares/"+file+".go", content) {
 		fmt.Println("Middleware created successfully!")
 		tidyAction()
 	} else {

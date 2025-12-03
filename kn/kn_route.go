@@ -2,15 +2,18 @@ package main
 
 import (
 	"fmt"
-	"path/filepath"
 	"strings"
 
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )
 
-func routeAction(c string) {
-	fmt.Printf("Creating new %s route...\n", c)
+func routeAction(file string, method string) {
+
+	checkArg(file, "route filename.")
+	checkArg(method, "http method.")
+
+	fmt.Printf("Creating new %s route...\n", file)
 
 	routeTemplate := `package routes
 
@@ -25,12 +28,8 @@ func __FUNCNAME__(c *gin.Context) {
 }
 `
 
-	file := strings.TrimSuffix(c, filepath.Ext(c))
-	s1 := strings.Replace(routeTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
-	method := strings.Split(c, ".")
-	r1 := strings.Replace(c, "."+method[1], "", 1)
-
-	if createNewFile("./internal/routes/"+c+".go", s1) && createNewFile("./internal/controllers/"+r1+".go", "") && createNewFile("./internal/services/"+r1+".go", "") {
+	content := strings.Replace(routeTemplate, "__FUNCNAME__", cases.Title(language.English).String(file), 1)
+	if createNewFile("./internal/routes/"+file+"."+method+".go", content) && createNewFile("./internal/controllers/"+file+".go", "") && createNewFile("./internal/services/"+file+".go", "") {
 		fmt.Println("Route created successfully!")
 		tidyAction()
 	} else {
