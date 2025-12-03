@@ -56,7 +56,7 @@ func main() {
 }
 `
 
-	var s1 string = ""
+	s1 := ""
 
 	// internal/middlewares
 	if fileExists("./internal/middlewares") {
@@ -73,6 +73,7 @@ func main() {
 			s1 = strings.Replace(s1, "__MIDDLEWARES__", sb.String(), 1)
 		} else {
 			s1 = strings.Replace(kinfoolTemplate, "__MIDDLEWARES_IMPORT__", "", 1)
+			s1 = strings.Replace(s1, "__MIDDLEWARES__", "", 1)
 		}
 	}
 
@@ -94,6 +95,7 @@ func main() {
 			s1 = strings.Replace(s1, "__ROUTERS__", sb.String(), 1)
 		} else {
 			s1 = strings.Replace(s1, "__ROUTERS_IMPORT__", "", 1)
+			s1 = strings.Replace(s1, "__ROUTERS__", "", 1)
 		}
 	}
 
