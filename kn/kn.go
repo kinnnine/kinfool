@@ -25,7 +25,7 @@ MANUAL:
 			Name:    "initialize",
 			Aliases: []string{"i"},
 			Usage:   "Create a new kinfool project",
-			Action:  func(c *cli.Context) error { initializeAction(); return nil },
+			Action:  func(c *cli.Context) error { initializeAction(c.Args().Get(0)); return nil },
 		},
 		{
 			Name:    "tidy",
